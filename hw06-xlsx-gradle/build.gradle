@@ -1,0 +1,33 @@
+plugins {
+    id 'groovy'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group 'ru.otus.homework'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+    implementation 'org.apache.poi:poi'
+    implementation 'org.apache.poi:poi-ooxml'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('hw06-xlsx-gradle-fatJar')
+    archiveVersion.set('0.1')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.homework.Main'
+    }
+}
