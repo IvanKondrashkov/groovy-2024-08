@@ -31,6 +31,8 @@ allprojects {
             dependency("org.codehaus.groovy:groovy-all:${Versions.groovy_all}")
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}")
+            dependency("org.apache.poi:poi:${Versions.apache_poi}")
+            dependency("org.apache.poi:poi-ooxml:${Versions.apache_poi}")
         }
     }
 
