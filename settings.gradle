@@ -1,3 +1,7 @@
+pluginManagement {
+    includeBuild('hw07-gradle')
+}
+
 rootProject.name = 'groovy-2024-08'
 include 'hw01-gradle'
 include 'hw02-gradle'

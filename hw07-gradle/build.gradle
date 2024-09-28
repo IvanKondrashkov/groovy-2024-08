@@ -1,0 +1,46 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+}
+
+group 'ru.otus.homework'
+version '1.0-SNAPSHOT'
+
+def functionalTest = sourceSets.create("functionalTest")
+
+gradlePlugin {
+    plugins {
+        CodegenPlugin {
+            id = 'ru.otus.homework.plugin'
+            implementationClass = 'ru.otus.homework.plugin.CodegenPlugin'
+        }
+    }
+
+    testSourceSets(sourceSets.functionalTest)
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    functionalTestImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
+
+    implementation 'dev.gradleplugins:gradle-api:8.2.1'
+}
+
+def functionalTestTask = tasks.register("functionalTest", Test) {
+    description = 'Runs the functional tests.'
+    group = "verification"
+    testClassesDirs = functionalTest.output.classesDirs
+    classpath = functionalTest.runtimeClasspath
+    mustRunAfter(tasks.named('test'))
+}
+
+tasks.named('check') {
+    dependsOn(functionalTestTask)
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
