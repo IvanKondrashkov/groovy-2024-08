@@ -1,11 +1,58 @@
 version: '2'
 services:
+  todo-back:
+    build:
+      context: hw09-back
+      dockerfile: Dockerfile
+    image: todo-back
+    container_name: todo-back-ct
+    ports:
+      - 9090:9090
+    depends_on:
+      todo-db:
+        condition: service_healthy
+        restart: true
+    environment:
+      - DATASOURCES_DEFAULT_URL=jdbc:postgresql://todo-db:5432/todo
+      - DATASOURCES_DEFAULT_USERNAME=root
+      - DATASOURCES_DEFAULT_PASSWORD=root
+      - JPA_DEFAULT_ENTITY-SCAN_PACKAGES=ru.otus.homework
+    networks:
+      - backend
+      - database
+    healthcheck:
+      test: curl -s http://localhost:9090
+      interval: 10s
+      timeout: 2s
+      retries: 2
+
+  todo-db:
+    image: postgres:14-alpine
+    container_name: todo-db-ct
+    volumes:
+      - postgres_home:/var/lib/postgresql/data/
+    ports:
+      - 6542:5432
+    environment:
+      - POSTGRES_DB=todo
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    networks:
+      - database
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d todo" ]
+      interval: 10s
+      timeout: 2s
+      retries: 2
+
   jenkins:
     image: docker.io/bitnami/jenkins:2
     ports:
       - 8080:8080
       - 443:443
       - 50000:50000
+    depends_on:
+      - todo-back
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
@@ -13,3 +60,8 @@ services:
 
 volumes:
   jenkins_home:
+  postgres_home:
+
+networks:
+  database:
+  backend:

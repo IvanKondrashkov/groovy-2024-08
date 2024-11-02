@@ -1,0 +1,73 @@
+plugins {
+    id 'groovy'
+    id 'io.micronaut.aot'
+    id 'io.micronaut.application'
+    id 'io.micronaut.test-resources'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group 'ru.otus.homework'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.micronaut.data:micronaut-data-hibernate-jpa'
+    implementation 'io.micronaut.data:micronaut-data-tx-hibernate'
+    implementation 'io.micronaut.groovy:micronaut-runtime-groovy'
+    implementation 'io.micronaut.liquibase:micronaut-liquibase'
+    implementation 'io.micronaut.serde:micronaut-serde-jackson'
+    implementation 'io.micronaut.sql:micronaut-hibernate-jpa'
+    implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
+
+    compileOnly 'io.micronaut.data:micronaut-data-processor'
+    compileOnly 'io.micronaut:micronaut-http-client'
+    compileOnly 'io.micronaut:micronaut-http-validation'
+    compileOnly 'io.micronaut.serde:micronaut-serde-processor'
+
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'io.micronaut:micronaut-http-client'
+}
+
+
+application {
+    mainClass = "ru.otus.homework.Application"
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("ru.otus.homework.*")
+    }
+    aot {
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+        replaceLogbackXml = true
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('hw09-back-fatJar')
+    archiveVersion.set('0.1')
+    manifest {
+        attributes 'Main-Class': 'ru.otus.homework.Application'
+    }
+}

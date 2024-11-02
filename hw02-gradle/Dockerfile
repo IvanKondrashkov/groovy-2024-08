@@ -1,2 +1,2 @@
-FROM amazoncorretto:11-alpine-jdk
+FROM amazoncorretto:17-alpine-jdk
 COPY hw02-gradle/build/libs/*.jar app.jar
