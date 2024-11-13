@@ -1,0 +1,581 @@
+{
+	"info": {
+		"_postman_id": "e36b8cd7-682a-4b3b-bc6d-8d5ad71b5ff0",
+		"name": "hw09-back",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19694628"
+	},
+	"item": [
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "create task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"task_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning culture\",\r\n    \"startDate\": \"2024-11-01 00:00:00\",\r\n    \"endDate\": \"2024-11-02 00:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update task by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"task_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{task_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get task by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"startDate\", response.startDate)\r",
+									"pm.globals.set(\"endDate\", response.endDate)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{task_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks?",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get count tasks by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/count?date={{startDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"count"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "{{startDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/list?date={{startDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"list"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "{{startDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks by startDate and endDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/range?startDate={{startDate}}&endDate={{endDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"range"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete task by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"startDate\", response.startDate)\r",
+									"pm.globals.set(\"endDate\", response.endDate)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{task_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "actions",
+			"item": [
+				{
+					"name": "create task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"task_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning sport\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create action",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"action_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning football\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/actions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update action by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"task_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"{{action_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get action by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"startDate\", response.startDate)\r",
+									"pm.globals.set(\"endDate\", response.endDate)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"{{action_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all actions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions?",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get count actions by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions/count?date={{startDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"count"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "{{startDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all actions by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions/list?date={{startDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"list"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "{{startDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all actions by startDate and endDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions/range?startDate={{startDate}}&endDate={{endDate}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"range"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete action by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"startDate\", response.startDate)\r",
+									"pm.globals.set(\"endDate\", response.endDate)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actions",
+								"{{action_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:9090"
+		}
+	]
+}

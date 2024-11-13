@@ -41,7 +41,7 @@ class Task {
     LocalDateTime endDate
 
     @JsonIgnore
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Action> actions = new HashSet<>()
 
     Task(String name, String description, LocalDateTime startDate, LocalDateTime endDate, Set<Action> actions) {

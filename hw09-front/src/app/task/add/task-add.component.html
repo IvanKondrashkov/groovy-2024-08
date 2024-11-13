@@ -1,0 +1,54 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/task/list']">
+      <mat-icon class="mat-icon" inline="true">Список задач</mat-icon></a>
+  </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Название" formControlName="name" type="text">
+        <mat-error>
+          <span *ngIf="validate['name'].touched && validate['name'].invalid">Name is required.</span>
+        </mat-error>
+      </mat-form-field>
+      </mat-card>
+
+      <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Описание" formControlName="description" type="text">
+        <mat-error>
+          <span *ngIf="validate['description'].touched && validate['description'].invalid">Description is required.</span>
+        </mat-error>
+      </mat-form-field>
+      </mat-card>
+
+      <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="yyyy-MM-ddTHH:mm:ss" formControlName="startDate" type="datetime-local">
+        <mat-error>
+          <span *ngIf="validate['startDate'].touched && validate['startDate'].invalid">Start date is required.</span>
+        </mat-error>
+      </mat-form-field>
+      </mat-card>
+
+      <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="yyyy-MM-ddTHH:mm:ss" formControlName="endDate" type="datetime-local">
+        <mat-error>
+          <span *ngIf="validate['endDate'].touched && validate['endDate'].invalid">End date is required.</span>
+        </mat-error>
+      </mat-form-field>
+      </mat-card>
+
+      <div class="button-row">
+        <button type="submit" [disabled]="!form.valid" mat-flat-button color="primary">
+          <mat-icon class="mat-icon" inline="true">Сохранить</mat-icon></button>
+      </div>
+    </form>
+</div>

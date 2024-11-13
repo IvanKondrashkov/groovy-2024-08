@@ -3,7 +3,6 @@ package ru.otus.homework.service.impl
 import io.micronaut.data.model.Sort
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import io.micronaut.transaction.annotation.ReadOnly
 import io.micronaut.transaction.annotation.Transactional
 import ru.otus.homework.model.Task
 import ru.otus.homework.dto.TaskInfo
@@ -48,7 +47,7 @@ class TaskServiceImpl implements TaskService {
         throw new EntityNotValidException('Task update, time not valid!')
     }
 
-    @ReadOnly
+    @Transactional(readOnly = true)
     TaskInfo findById(UUID taskId) {
         def taskDb = taskRepository.findById(taskId).orElseThrow(
                 () -> new EntityNotFoundException('Task not found!')
@@ -56,7 +55,7 @@ class TaskServiceImpl implements TaskService {
         return taskMapper.toTaskInfo(taskDb)
     }
 
-    @ReadOnly
+    @Transactional(readOnly = true)
     List<TaskInfo> findAll(Pageable pageable) {
         def defaultPageable = Pageable.from(pageable.number, pageable.size, Sort.of(Sort.Order.asc('id')))
         pageable = pageable.sort.isSorted() ? pageable : defaultPageable
@@ -73,24 +72,24 @@ class TaskServiceImpl implements TaskService {
         taskRepository.deleteById(taskId)
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     List<TaskInfo> findAllByDate(LocalDateTime date) {
         return taskRepository.findAllByDate(date).stream()
                 .map(it -> taskMapper::toTaskInfo(it))
                 .collect()
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     List<TaskInfo> findAllByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate) {
         return taskRepository.findAllByStartDateAndEndDate(startDate, endDate).stream()
                 .map(it -> taskMapper::toTaskInfo(it))
                 .collect()
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     long countAllByDate(LocalDateTime date) {
         return taskRepository.countAllByDate(date)
     }

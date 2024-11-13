@@ -18,10 +18,30 @@ services:
       - DATASOURCES_DEFAULT_PASSWORD=root
       - JPA_DEFAULT_ENTITY-SCAN_PACKAGES=ru.otus.homework
     networks:
+      - frontend
       - backend
       - database
     healthcheck:
-      test: curl -s http://localhost:9090
+      test: curl -s http://localhost:9090/tasks
+      interval: 10s
+      timeout: 2s
+      retries: 2
+
+  todo-front:
+    build:
+      context: hw09-front
+      dockerfile: Dockerfile
+    image: todo-front
+    container_name: todo-front-ct
+    ports:
+      - 4200:4200
+    depends_on:
+      - todo-back
+    networks:
+      - frontend
+      - backend
+    healthcheck:
+      test: curl -s http://localhost:4200
       interval: 10s
       timeout: 2s
       retries: 2
@@ -64,4 +84,5 @@ volumes:
 
 networks:
   database:
+  frontend:
   backend:

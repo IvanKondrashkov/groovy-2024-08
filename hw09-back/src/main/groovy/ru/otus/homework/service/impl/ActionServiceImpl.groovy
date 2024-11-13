@@ -3,7 +3,6 @@ package ru.otus.homework.service.impl
 import io.micronaut.data.model.Sort
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
-import io.micronaut.transaction.annotation.ReadOnly
 import io.micronaut.transaction.annotation.Transactional
 import ru.otus.homework.model.Action
 import ru.otus.homework.dto.ActionInfo
@@ -50,7 +49,7 @@ class ActionServiceImpl implements ActionService {
         throw new EntityNotValidException('Action update, time not valid!')
     }
 
-    @ReadOnly
+    @Transactional(readOnly = true)
     ActionInfo findById(UUID actionId) {
         def actionDb = actionRepository.findById(actionId).orElseThrow(
                 () -> new EntityNotFoundException('Action not found!')
@@ -58,7 +57,7 @@ class ActionServiceImpl implements ActionService {
         return actionMapper.toActionInfo(actionDb)
     }
 
-    @ReadOnly
+    @Transactional(readOnly = true)
     List<ActionInfo> findAll(Pageable pageable) {
         def defaultPageable = Pageable.from(pageable.number, pageable.size, Sort.of(Sort.Order.asc('id')))
         pageable = pageable.sort.isSorted() ? pageable : defaultPageable
@@ -75,24 +74,24 @@ class ActionServiceImpl implements ActionService {
         actionRepository.deleteById(actionId)
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     List<ActionInfo> findAllByDate(LocalDateTime date) {
         return actionRepository.findAllByDate(date).stream()
                 .map(it -> actionMapper::toActionInfo(it))
                 .collect()
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     List<ActionInfo> findAllByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate) {
         return actionRepository.findAllByStartDateAndEndDate(startDate, endDate).stream()
                 .map(it -> actionMapper::toActionInfo(it))
                 .collect()
     }
 
-    @ReadOnly
     @Override
+    @Transactional(readOnly = true)
     long countAllByDate(LocalDateTime date) {
         return actionRepository.countAllByDate(date)
     }
