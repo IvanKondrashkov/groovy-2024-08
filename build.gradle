@@ -35,6 +35,9 @@ allprojects {
             dependency("org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}")
             dependency("org.apache.poi:poi:${Versions.apache_poi}")
             dependency("org.apache.poi:poi-ooxml:${Versions.apache_poi}")
+            dependency("com.zaxxer:HikariCP:${Versions.hikari}")
+            dependency("org.postgresql:postgresql:${Versions.postgres}")
+            dependency("org.flywaydb:flyway-core:${Versions.flyway}")
         }
     }
 
