@@ -8,21 +8,12 @@ import java.time.LocalDateTime
 @Repository
 interface ActionRepository extends PageableRepository<Action, UUID> {
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT a.* FROM actions a WHERE :date BETWEEN a.start_date AND a.end_date"
-    )
+    @Query("SELECT a FROM Action a WHERE :date BETWEEN a.startDate AND a.endDate")
     List<Action> findAllByDate(LocalDateTime date)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT a.* FROM actions a WHERE :startDate BETWEEN a.start_date AND a.end_date OR :endDate BETWEEN a.start_date AND a.end_date"
-    )
+    @Query("SELECT a FROM Action a WHERE :startDate BETWEEN a.startDate AND a.endDate OR :endDate BETWEEN a.startDate AND a.endDate")
     List<Action> findAllByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT COUNT(a.id) FROM actions a WHERE :date BETWEEN a.start_date AND a.end_date"
-    )
+    @Query("SELECT COUNT(a.id) FROM Action a WHERE :date BETWEEN a.startDate AND a.endDate")
     long countAllByDate(LocalDateTime date)
 }
