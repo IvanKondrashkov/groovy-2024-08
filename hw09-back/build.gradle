@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'jacoco'
     id 'io.micronaut.aot'
     id 'io.micronaut.application'
     id 'io.micronaut.test-resources'
@@ -30,7 +31,11 @@ dependencies {
     runtimeOnly 'ch.qos.logback:logback-classic'
     runtimeOnly 'org.postgresql:postgresql'
 
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'io.micronaut:micronaut-http-client'
+
+    testRuntimeOnly 'org.postgresql:postgresql'
 }
 
 
@@ -61,6 +66,18 @@ micronaut {
         deduceEnvironment = true
         optimizeNetty = true
         replaceLogbackXml = true
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
     }
 }
 

@@ -8,21 +8,12 @@ import java.time.LocalDateTime
 @Repository
 interface TaskRepository extends PageableRepository<Task, UUID> {
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT t.* FROM tasks t WHERE :date BETWEEN t.start_date AND t.end_date"
-    )
+    @Query("SELECT t FROM Task t WHERE :date BETWEEN t.startDate AND t.endDate")
     List<Task> findAllByDate(LocalDateTime date)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT t.* FROM tasks t WHERE :startDate BETWEEN t.start_date AND t.end_date OR :endDate BETWEEN t.start_date AND t.end_date"
-    )
+    @Query("SELECT t FROM Task t WHERE :startDate BETWEEN t.startDate AND t.endDate OR :endDate BETWEEN t.startDate AND t.endDate")
     List<Task> findAllByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT COUNT(t.id) FROM tasks t WHERE :date BETWEEN t.start_date AND t.end_date"
-    )
+    @Query("SELECT COUNT(t.id) FROM Task t WHERE :date BETWEEN t.startDate AND t.endDate")
     long countAllByDate(LocalDateTime date)
 }
