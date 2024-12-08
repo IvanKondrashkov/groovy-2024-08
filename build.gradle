@@ -30,6 +30,7 @@ allprojects {
         dependencies {
             imports {
                 //mavenBom("io.micronaut:micronaut-bom:3.10.4")
+                mavenBom("org.apache.jmeter:ApacheJMeter_bom:5.6.3")
             }
             dependency("com.google.guava:guava:${Versions.guava}")
             dependency("org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}")
@@ -38,6 +39,8 @@ allprojects {
             dependency("com.zaxxer:HikariCP:${Versions.hikari}")
             dependency("org.postgresql:postgresql:${Versions.postgres}")
             dependency("org.flywaydb:flyway-core:${Versions.flyway}")
+            dependency("com.google.code.gson:gson:${Versions.gson}")
+            dependency("us.abstracta.jmeter:jmeter-java-dsl:${Versions.jmeter_java_dsl}")
         }
     }
 

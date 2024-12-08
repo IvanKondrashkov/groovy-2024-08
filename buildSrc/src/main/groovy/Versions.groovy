@@ -5,4 +5,6 @@ interface Versions {
     String hikari = '5.0.1'
     String postgres = '42.5.1'
     String flyway = '9.12.0'
+    String gson = '2.11.0'
+    String jmeter_java_dsl = '1.29.1'
 }
