@@ -22,6 +22,7 @@ dependencies {
     implementation 'io.micronaut.serde:micronaut-serde-jackson'
     implementation 'io.micronaut.sql:micronaut-hibernate-jpa'
     implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
     compileOnly 'io.micronaut.data:micronaut-data-processor'
     compileOnly 'io.micronaut:micronaut-http-client'
@@ -34,6 +35,7 @@ dependencies {
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'io.micronaut:micronaut-http-client'
+    testImplementation 'us.abstracta.jmeter:jmeter-java-dsl'
 
     testRuntimeOnly 'org.postgresql:postgresql'
 }
