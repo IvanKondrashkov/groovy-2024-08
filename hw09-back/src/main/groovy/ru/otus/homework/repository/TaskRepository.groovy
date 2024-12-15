@@ -1,6 +1,8 @@
 package ru.otus.homework.repository
 
 import io.micronaut.data.annotation.*
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import io.micronaut.data.repository.PageableRepository
 import ru.otus.homework.model.Task
 import java.time.LocalDateTime
@@ -8,21 +10,16 @@ import java.time.LocalDateTime
 @Repository
 interface TaskRepository extends PageableRepository<Task, UUID> {
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT t.* FROM tasks t WHERE :date BETWEEN t.start_date AND t.end_date"
-    )
-    List<Task> findAllByDate(LocalDateTime date)
+    Optional<Task> findByInitiator_IdAndId(UUID userId, UUID taskId)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT t.* FROM tasks t WHERE :startDate BETWEEN t.start_date AND t.end_date OR :endDate BETWEEN t.start_date AND t.end_date"
-    )
-    List<Task> findAllByStartDateAndEndDate(LocalDateTime startDate, LocalDateTime endDate)
+    Page<Task> findByInitiator_Id(UUID userId, Pageable pageable)
 
-    @Query(
-            nativeQuery = true,
-            value = "SELECT COUNT(t.id) FROM tasks t WHERE :date BETWEEN t.start_date AND t.end_date"
-    )
-    long countAllByDate(LocalDateTime date)
+    @Query("SELECT t FROM Task t WHERE :userId = t.initiator.id AND :date BETWEEN t.startDate AND t.endDate")
+    List<Task> findAllByDate(UUID userId, LocalDateTime date)
+
+    @Query("SELECT t FROM Task t WHERE :userId = t.initiator.id AND :startDate BETWEEN t.startDate AND t.endDate OR :endDate BETWEEN t.startDate AND t.endDate")
+    List<Task> findAllByStartDateAndEndDate(UUID userId, LocalDateTime startDate, LocalDateTime endDate)
+
+    @Query("SELECT COUNT(t.id) FROM Task t WHERE :userId = t.initiator.id AND :date BETWEEN t.startDate AND t.endDate")
+    long countAllByDate(UUID userId, LocalDateTime date)
 }

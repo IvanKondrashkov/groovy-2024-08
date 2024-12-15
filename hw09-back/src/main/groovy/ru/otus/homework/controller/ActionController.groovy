@@ -6,67 +6,70 @@ import jakarta.inject.Inject
 import jakarta.validation.Valid
 import groovy.util.logging.Slf4j
 import io.micronaut.validation.Validated
+import io.micronaut.security.annotation.Secured
+import io.micronaut.security.rules.SecurityRule
 import io.micronaut.http.annotation.*
 import ru.otus.homework.model.Action
 import ru.otus.homework.dto.ActionInfo
 import io.micronaut.data.model.Pageable
-import ru.otus.homework.service.impl.ActionServiceImpl
+import ru.otus.homework.service.ActionService
 import java.time.LocalDateTime
 
 @Slf4j
 @Validated
-@Controller("/actions")
+@Secured(SecurityRule.IS_AUTHENTICATED)
+@Controller("/user")
 class ActionController {
     @Inject
-    ActionServiceImpl actionService
+    ActionService actionService
 
     @Status(HttpStatus.CREATED)
-    @Post(produces="application/json")
-    ActionInfo save(@Body @Valid Action action) {
-        log.info("Send save request /actions")
-        return actionService.save(action)
+    @Post(uri="/{userId}/actions", produces="application/json")
+    ActionInfo save(@Body @Valid Action action, @PathVariable UUID userId) {
+        log.info("Send save request /user/{}/actions", userId)
+        return actionService.save(action, userId)
     }
 
-    @Put(uri="/{id}", produces="application/json")
-    ActionInfo updateById(@Body @Valid Action action, @PathVariable UUID id) {
-        log.info("Send update request /actions/{}", id)
-        return actionService.updateById(action, id)
+    @Put(uri="/{userId}/actions/{id}", produces="application/json")
+    ActionInfo updateById(@Body @Valid Action action, @PathVariable UUID userId, @PathVariable UUID id) {
+        log.info("Send update request /user/{}/actions/{}", userId, id)
+        return actionService.updateById(action, userId, id)
     }
 
-    @Get(uri="/{id}", produces="application/json")
-    ActionInfo findById(@PathVariable UUID id) {
-        log.info("Send get request /actions/{}", id)
-        return actionService.findById(id)
+    @Get(uri="/{userId}/actions/{id}", produces="application/json")
+    ActionInfo findById(@PathVariable UUID userId, @PathVariable UUID id) {
+        log.info("Send get request /user/{}/actions/{}", userId, id)
+        return actionService.findById(userId, id)
     }
 
-    @Get(produces="application/json")
-    List<ActionInfo> findAll(Pageable pageable) {
-        log.info("Send get request /actions?page={}&size={}&sort={}", pageable.number, pageable.size, pageable.sort)
-        return actionService.findAll(pageable)
+    @Get(uri="/{userId}/actions",produces="application/json")
+    List<ActionInfo> findAll(@PathVariable UUID userId, Pageable pageable) {
+        log.info("Send get request /user/{}/actions?page={}&size={}&sort={}", userId, pageable.number, pageable.size, pageable.sort)
+        return actionService.findAll(userId, pageable)
     }
 
     @Status(HttpStatus.NO_CONTENT)
-    @Delete(uri="/{id}", produces="application/json")
-    void deleteById(@PathVariable UUID id) {
-        log.info("Send delete request /tasks/{}", id)
-        actionService.deleteById(id)
+    @Delete(uri="/{userId}/actions/{id}", produces="application/json")
+    void deleteById(@PathVariable UUID userId, @PathVariable UUID id) {
+        log.info("Send delete request /user/{}/actions/{}", userId, id)
+        actionService.deleteById(userId, id)
     }
 
-    @Get(uri="/list{?date}", produces="application/json")
-    List<ActionInfo> findAllByDate(@QueryValue @Nullable LocalDateTime date) {
-        log.info("Send get request /actions/list?date={}", date)
-        return actionService.findAllByDate(date)
+    @Get(uri="/actions/list{?userId,date}", produces="application/json")
+    List<ActionInfo> findAllByDate(@QueryValue @Nullable UUID userId, @QueryValue @Nullable LocalDateTime date) {
+        log.info("Send get request /user/actions/list?userId={}&date={}", userId, date)
+        return actionService.findAllByDate(userId, date)
     }
 
-    @Get(uri="/range{?startDate,endDate}", produces="application/json")
-    List<ActionInfo> findAllByStartDateAndEndDate(@QueryValue @Nullable LocalDateTime startDate, @QueryValue @Nullable LocalDateTime endDate) {
-        log.info("Send get request /actions/range?startDate={}&endDate={}", startDate, endDate)
-        return actionService.findAllByStartDateAndEndDate(startDate, endDate)
+    @Get(uri="/actions/range{?userId,startDate,endDate}", produces="application/json")
+    List<ActionInfo> findAllByStartDateAndEndDate(@QueryValue @Nullable UUID userId, @QueryValue @Nullable LocalDateTime startDate, @QueryValue @Nullable LocalDateTime endDate) {
+        log.info("Send get request /user/actions/range?userId={}&startDate={}&endDate={}", userId, startDate, endDate)
+        return actionService.findAllByStartDateAndEndDate(userId, startDate, endDate)
     }
 
-    @Get(uri="/count{?date}", produces="application/json")
-    long countAllByDate(@QueryValue @Nullable LocalDateTime date) {
-        log.info("Send get request /actions/count?date={}", date)
-        return actionService.countAllByDate(date)
+    @Get(uri="/actions/count{?userId,date}", produces="application/json")
+    long countAllByDate(@QueryValue @Nullable UUID userId, @QueryValue @Nullable LocalDateTime date) {
+        log.info("Send get request /user/actions/count?userId={}&date={}", userId, date)
+        return actionService.countAllByDate(userId, date)
     }
 }
