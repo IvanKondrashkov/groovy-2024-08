@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'jacoco'
     id 'io.micronaut.aot'
     id 'io.micronaut.application'
     id 'io.micronaut.test-resources'
@@ -21,6 +22,7 @@ dependencies {
     implementation 'io.micronaut.serde:micronaut-serde-jackson'
     implementation 'io.micronaut.sql:micronaut-hibernate-jpa'
     implementation 'io.micronaut.sql:micronaut-jdbc-hikari'
+    implementation 'com.google.code.gson:gson'
     implementation 'io.micronaut.security:micronaut-security-jwt'
 
     compileOnly 'io.micronaut.data:micronaut-data-processor'
@@ -31,7 +33,12 @@ dependencies {
     runtimeOnly 'ch.qos.logback:logback-classic'
     runtimeOnly 'org.postgresql:postgresql'
 
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'io.micronaut:micronaut-http-client'
+    testImplementation 'us.abstracta.jmeter:jmeter-java-dsl'
+
+    testRuntimeOnly 'org.postgresql:postgresql'
 }
 
 
@@ -62,6 +69,18 @@ micronaut {
         deduceEnvironment = true
         optimizeNetty = true
         replaceLogbackXml = true
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
     }
 }
 
