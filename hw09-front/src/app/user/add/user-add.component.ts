@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ActionService} from '../action.service';
+import {UserService} from '../user.service';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatAnchor, MatButton} from '@angular/material/button';
 import {MatCard} from '@angular/material/card';
@@ -10,7 +10,7 @@ import {MatError, MatFormField, MatInput} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
-  selector: 'app-action-add',
+  selector: 'app-user-add',
   standalone: true,
   imports: [
     MatAnchor,
@@ -26,29 +26,25 @@ import {MatIconModule} from '@angular/material/icon';
     ReactiveFormsModule,
     CommonModule
   ],
-  templateUrl: './action-add.component.html',
-  styleUrl: './action-add.component.css'
+  templateUrl: './user-add.component.html',
+  styleUrl: './user-add.component.css'
 })
-export class ActionAddComponent {
-  userId!: any;
-  taskId!: any;
+export class UserAddComponent {
   form!: FormGroup;
   isLoadingResults = false;
 
   constructor(
-    private actionService: ActionService,
-    private route: ActivatedRoute,
+    private userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.userId = this.route.snapshot.params['userId'];
-    this.taskId = this.route.snapshot.params['taskId'];
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required)
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      login: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required)
     });
   }
 
@@ -59,10 +55,10 @@ export class ActionAddComponent {
   submit() {
     this.isLoadingResults = true;
     console.log(this.form.value);
-    this.actionService.save(this.form.value, this.userId, this.taskId).subscribe((res: any) => {
+    this.userService.save(this.form.value).subscribe((res: any) => {
       this.isLoadingResults = false;
       console.log('Event created successfully!');
-      this.router.navigateByUrl('action/list/' + this.userId);
+      this.router.navigateByUrl('login');
     })
   }
 }

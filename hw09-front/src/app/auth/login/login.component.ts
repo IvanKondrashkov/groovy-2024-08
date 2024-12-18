@@ -1,16 +1,17 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ActionService} from '../action.service';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatAnchor, MatButton} from '@angular/material/button';
 import {MatCard} from '@angular/material/card';
 import {MatError, MatFormField, MatInput} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
+import {AuthService} from '../auth.service';
+import {RefreshInfo} from '../refresh-info';
 
 @Component({
-  selector: 'app-action-add',
+  selector: 'app-login',
   standalone: true,
   imports: [
     MatAnchor,
@@ -26,29 +27,23 @@ import {MatIconModule} from '@angular/material/icon';
     ReactiveFormsModule,
     CommonModule
   ],
-  templateUrl: './action-add.component.html',
-  styleUrl: './action-add.component.css'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
-export class ActionAddComponent {
-  userId!: any;
-  taskId!: any;
+export class LoginComponent {
+  refreshInfo!: RefreshInfo;
   form!: FormGroup;
   isLoadingResults = false;
 
   constructor(
-    private actionService: ActionService,
-    private route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.userId = this.route.snapshot.params['userId'];
-    this.taskId = this.route.snapshot.params['taskId'];
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required)
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
 
@@ -56,13 +51,24 @@ export class ActionAddComponent {
     return this.form.controls;
   }
 
+  refreshToken(refreshInfo: RefreshInfo) {
+    this.isLoadingResults = true;
+    console.log(refreshInfo);
+    this.authService.refreshToken(refreshInfo).subscribe((res: any) => {
+      this.isLoadingResults = false;
+      localStorage.setItem('access_token', res.access_token);
+      console.log('Event refresh token successfully!');
+    })
+  }
+
   submit() {
     this.isLoadingResults = true;
     console.log(this.form.value);
-    this.actionService.save(this.form.value, this.userId, this.taskId).subscribe((res: any) => {
+    this.authService.login(this.form.value).subscribe((res: any) => {
       this.isLoadingResults = false;
-      console.log('Event created successfully!');
-      this.router.navigateByUrl('action/list/' + this.userId);
+      localStorage.setItem('access_token', res.access_token);
+      console.log('Event login successfully!');
+      this.router.navigateByUrl('user/list');
     })
   }
 }

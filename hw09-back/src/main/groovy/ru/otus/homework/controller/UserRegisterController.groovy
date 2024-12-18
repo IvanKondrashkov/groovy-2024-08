@@ -18,12 +18,12 @@ import ru.otus.homework.service.UserRegisterService
 @Controller("/users/register")
 class UserRegisterController {
     @Inject
-    UserRegisterService userService
+    UserRegisterService userRegisterService
 
     @Status(HttpStatus.CREATED)
     @Post(produces="application/json")
     UserInfo save(@Body @Valid User user) {
         log.info("Send save request /users/register")
-        return userService.save(user)
+        return userRegisterService.save(user)
     }
 }

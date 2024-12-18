@@ -20,36 +20,36 @@ import ru.otus.homework.service.UserAdminService
 @Controller("/users/admin")
 class UserAdminController {
     @Inject
-    UserAdminService userService
+    UserAdminService userAdminService
 
     @Put(uri="/{id}", produces="application/json")
     UserInfo updateById(@Body @Valid User user, @PathVariable UUID id) {
         log.info("Send update request /users/admin/{}", id)
-        return userService.updateById(user, id)
+        return userAdminService.updateById(user, id)
     }
 
     @Get(uri="/{id}", produces="application/json")
     UserInfo findById(@PathVariable UUID id) {
         log.info("Send get request /users/admin/{}", id)
-        return userService.findById(id)
+        return userAdminService.findById(id)
     }
 
     @Get(produces="application/json")
     List<UserInfo> findAll(Pageable pageable) {
         log.info("Send get request /users/admin?page={}&size={}&sort={}", pageable.number, pageable.size, pageable.sort)
-        return userService.findAll(pageable)
+        return userAdminService.findAll(pageable)
     }
 
     @Status(HttpStatus.NO_CONTENT)
     @Delete(uri="/{id}", produces="application/json")
     void deleteById(@PathVariable UUID id) {
         log.info("Send delete request /users/admin/{}", id)
-        userService.deleteById(id)
+        userAdminService.deleteById(id)
     }
 
     @Get(uri="/verify{?login,password}", produces="application/json")
     UserInfo findByLoginAndPassword(@QueryValue @Nullable String login, @QueryValue @Nullable String password) {
         log.info("Send get request /users/admin/verify?login={}&password={}", login, password)
-        return userService.findByLoginAndPassword(login, password)
+        return userAdminService.findByLoginAndPassword(login, password)
     }
 }

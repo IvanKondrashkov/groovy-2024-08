@@ -10,18 +10,17 @@ import {
   MatHeaderCell,
   MatTableDataSource, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef
 } from '@angular/material/table';
-import {ActionService} from '../action.service';
-import {Action} from '../action';
+import {UserService} from '../user.service';
+import {User} from '../user';
 import {MatAnchor} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
-  selector: 'app-action-list',
+  selector: 'app-user-list',
   standalone: true,
-  templateUrl: './action-list.component.html',
   imports: [
     MatAnchor,
     MatSort,
@@ -42,13 +41,13 @@ import {MatIconModule} from '@angular/material/icon';
     MatHeaderRowDef,
     MatRowDef
   ],
-  styleUrl: './action-list.component.css'
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css'
 })
-export class ActionListComponent {
-  userId!: any;
-  actions!: Action[];
-  displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate'];
-  dataSource: MatTableDataSource<Action> = new MatTableDataSource<Action>();
+export class UserListComponent {
+  users!: User[];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email'];
+  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ts-ignore
@@ -56,20 +55,18 @@ export class ActionListComponent {
   isLoadingResults = true;
 
   constructor(
-    private actionService: ActionService,
-    private route: ActivatedRoute
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    this.userId = this.route.snapshot.params['userId'];
-    this.actionService.findAll(this.userId).subscribe((res: Action[]) => {
+    this.userService.findAll().subscribe((res: User[]) => {
       this.dataSource.data = res;
-      this.actions = res;
+      this.users = res;
       console.log('this.dataSource = ', this.dataSource.data);
       this.isLoadingResults = false;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.actions);
+      console.log(this.users);
     })
   }
 }

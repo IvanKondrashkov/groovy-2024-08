@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
-import {TaskService} from '../task.service';
-import {Task} from '../task';
+import {UserService} from '../user.service';
+import {User} from '../user';
 import {CommonModule} from '@angular/common';
 import {
   MatCard,
@@ -15,7 +15,7 @@ import {MatAnchor} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-task-details',
+  selector: 'app-user-details',
   standalone: true,
   imports: [
     MatIcon,
@@ -30,41 +30,39 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
     RouterOutlet,
     RouterLink
   ],
-  templateUrl: './task-details.component.html',
-  styleUrl: './task-details.component.css'
+  templateUrl: './user-details.component.html',
+  styleUrl: './user-details.component.css'
 })
-export class TaskDetailsComponent {
+export class UserDetailsComponent {
   id!: any;
-  userId!: any;
-  task!: Task;
+  user!: User;
   isLoadingResults = true;
 
   constructor(
-    private taskService: TaskService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.userId = this.route.snapshot.params['userId'];
-    this.findById(this.userId, this.id)
+    this.findById(this.id)
   }
 
-  findById(userId: any, id: any) {
-    this.taskService.findById(userId, id).subscribe((res: any) => {
-      this.task = res
+  findById(id: any) {
+    this.userService.findById(id).subscribe((res: any) => {
+      this.user = res
       console.log(res);
       this.isLoadingResults = false;
     })
   }
 
-  deleteById(userId: any, id: any) {
+  deleteById(id: any) {
     this.isLoadingResults = true;
     this.id = id;
-    this.taskService.deleteById(userId, id).subscribe(res => {
+    this.userService.deleteById(id).subscribe(res => {
       this.isLoadingResults = false;
-      this.router.navigate(['task/list/' + this.userId]);
+      this.router.navigate(['user/list']);
       console.log('Event delete successfully!');
     })
   }

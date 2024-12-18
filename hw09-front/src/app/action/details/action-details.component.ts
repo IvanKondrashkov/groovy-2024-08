@@ -35,6 +35,7 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 })
 export class ActionDetailsComponent {
   id!: any;
+  userId!: any;
   action!: Action;
   isLoadingResults = true;
 
@@ -46,23 +47,24 @@ export class ActionDetailsComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.findById(this.id)
+    this.userId = this.route.snapshot.params['userId'];
+    this.findById(this.userId, this.id)
   }
 
-  findById(id: any) {
-    this.actionService.findById(id).subscribe((res: any) => {
+  findById(userId: any, id: any) {
+    this.actionService.findById(userId, id).subscribe((res: any) => {
       this.action = res
       console.log(res);
       this.isLoadingResults = false;
     })
   }
 
-  deleteById(id: any) {
+  deleteById(userId: any, id: any) {
     this.isLoadingResults = true;
     this.id = id;
-    this.actionService.deleteById(id).subscribe(res => {
+    this.actionService.deleteById(userId, id).subscribe(res => {
       this.isLoadingResults = false;
-      this.router.navigate(['/action/list']);
+      this.router.navigate(['action/list/' + this.userId]);
       console.log('Event delete successfully!');
     })
   }

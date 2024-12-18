@@ -33,6 +33,7 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class ActionEditComponent {
   id!: any;
+  userId!: any;
   task!: Task
   action!: Action;
   form!: FormGroup;
@@ -46,7 +47,8 @@ export class ActionEditComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.actionService.findById(this.id).subscribe((res: Action) => {
+    this.userId = this.route.snapshot.params['userId'];
+    this.actionService.findById(this.userId, this.id).subscribe((res: Action) => {
       this.action = res;
       if (res.task) {
         this.task = res.task
@@ -69,10 +71,10 @@ export class ActionEditComponent {
     this.isLoadingResults = true;
     this.form.value['task'] = this.task
     console.log(this.form.value);
-    this.actionService.updateById(this.id, this.form.value).subscribe((res: any) => {
+    this.actionService.updateById(this.userId, this.id, this.form.value).subscribe((res: any) => {
       this.isLoadingResults = false;
       console.log('Event update successfully!');
-      this.router.navigateByUrl('action/list');
+      this.router.navigateByUrl('action/list/' + this.userId);
     })
   }
 }

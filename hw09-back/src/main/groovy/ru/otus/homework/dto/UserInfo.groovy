@@ -11,10 +11,12 @@ class UserInfo {
     UUID id
     String firstName
     String lastName
+    String email
 
-    UserInfo(UUID id, String firstName, String lastName) {
+    UserInfo(UUID id, String firstName, String lastName, String email) {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
+        this.email = email
     }
 }
