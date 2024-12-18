@@ -4,7 +4,7 @@
   </div>
 
   <div class="button-row">
-    <a mat-flat-button color="primary" [routerLink]="['/task/list']">
+    <a mat-flat-button color="primary" [routerLink]="['/task/list', userId]">
       <mat-icon class="mat-icon" inline="true">Список задач</mat-icon></a>
   </div>
 
@@ -29,11 +29,11 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <a mat-flat-button color="primary" [routerLink]="['/task-edit', task.id]">
+      <a mat-flat-button color="primary" [routerLink]="['/task-edit', userId, task.id]">
         <mat-icon class="mat-icon" inline="true">Обновить</mat-icon></a>
-      <a mat-flat-button color="warn" (click)="deleteById(task.id)">
+      <a mat-flat-button color="warn" (click)="deleteById(userId, task.id)">
         <mat-icon class="mat-icon" inline="true">Удалить</mat-icon></a>
-      <a mat-flat-button color="primary" [routerLink]="['/action-add', task.id]">
+      <a mat-flat-button color="primary" [routerLink]="['/action-add', userId, task.id]">
         <mat-icon class="mat-icon" inline="true">Добавить действие</mat-icon></a>
     </mat-card-actions>
   </mat-card>

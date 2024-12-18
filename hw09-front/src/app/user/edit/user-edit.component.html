@@ -1,0 +1,63 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/user/list']">
+      <mat-icon class="mat-icon" inline="true">Список пользователей</mat-icon></a>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Имя" formControlName="firstName" type="text">
+        <mat-error>
+          <span *ngIf="validate['firstName'].touched && validate['firstName'].invalid">First name is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Фамилия" formControlName="lastName" type="text">
+        <mat-error>
+          <span *ngIf="validate['lastName'].touched && validate['lastName'].invalid">Last name is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Логин" formControlName="login" type="text">
+        <mat-error>
+          <span *ngIf="validate['login'].touched && validate['login'].invalid">Login is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Пароль" formControlName="password" type="text">
+        <mat-error>
+          <span *ngIf="validate['password'].touched && validate['password'].invalid">Password is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Почта" formControlName="email" type="text">
+        <mat-error>
+          <span *ngIf="validate['email'].touched && validate['email'].invalid">Email is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <div class="button-row">
+      <button type="submit" [disabled]="!form.valid" mat-flat-button color="primary">
+        <mat-icon class="mat-icon" inline="true">Сохранить</mat-icon></button>
+    </div>
+  </form>
+</div>

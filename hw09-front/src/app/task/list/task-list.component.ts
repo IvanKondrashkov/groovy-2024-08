@@ -15,7 +15,7 @@ import {Task} from '../task';
 import {MatAnchor} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {CommonModule} from '@angular/common';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
@@ -45,6 +45,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './task-list.component.css'
 })
 export class TaskListComponent {
+  userId!: any;
   tasks!: Task[];
   displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate'];
   dataSource: MatTableDataSource<Task> = new MatTableDataSource<Task>();
@@ -55,11 +56,13 @@ export class TaskListComponent {
   isLoadingResults = true;
 
   constructor(
-    private taskService: TaskService
+    private taskService: TaskService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.taskService.findAll().subscribe((res: Task[]) => {
+    this.userId = this.route.snapshot.params['userId'];
+    this.taskService.findAll(this.userId).subscribe((res: Task[]) => {
       this.dataSource.data = res;
       this.tasks = res;
       console.log('this.dataSource = ', this.dataSource.data);

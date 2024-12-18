@@ -5,6 +5,7 @@ import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import java.time.LocalDateTime
 import spock.lang.Specification
+import ru.otus.homework.model.User
 import ru.otus.homework.model.Task
 import ru.otus.homework.mapper.TaskMapper
 import io.micronaut.data.model.Sort
@@ -15,21 +16,34 @@ import io.micronaut.data.model.Pageable
 @Property(name = "datasources.default.url", value = "jdbc:tc:postgresql:///db")
 class TaskRepositoryTest extends Specification {
     @Inject
+    UserRepository userRepository
+    @Inject
     TaskRepository taskRepository
     @Inject
     TaskMapper taskMapper
+    User user
     Task task
 
     def setup() {
+        user = new User(
+                firstName: "Djon",
+                lastName: "Doe",
+                login: "qwerty",
+                password: "123456",
+                email: "djon@mail.ru"
+        )
         task = new Task(
                 name: "learning",
                 description: "read book",
                 startDate: LocalDateTime.of(2024, 11, 1, 0, 0),
-                endDate: LocalDateTime.of(2024, 11, 10, 0, 0)
+                endDate: LocalDateTime.of(2024, 11, 10, 0, 0),
+                initiator: user
         )
+        userRepository.save(user)
     }
 
     void cleanup() {
+        user = null
         task = null
     }
 
@@ -43,6 +57,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.description == task.description
         taskDb.startDate == task.startDate
         taskDb.endDate == task.endDate
+        taskDb.initiator.id == user.id
     }
 
     def "update"() {
@@ -62,6 +77,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.description == task.description
         taskDb.startDate == task.startDate
         taskDb.endDate == task.endDate
+        taskDb.initiator.id == user.id
     }
 
     def "findById"() {
@@ -72,7 +88,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.id != null
 
         when:
-        taskDb = taskRepository.findById(taskDb.id).orElseThrow()
+        taskDb = taskRepository.findByInitiator_IdAndId(user.id, taskDb.id).orElseThrow()
 
         then:
         taskDb.id != null
@@ -80,6 +96,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.description == task.description
         taskDb.startDate == task.startDate
         taskDb.endDate == task.endDate
+        taskDb.initiator.id == user.id
     }
 
     def "findAll"() {
@@ -91,7 +108,7 @@ class TaskRepositoryTest extends Specification {
 
         when:
         def defaultPageable = Pageable.from(0, 10, Sort.of(Sort.Order.asc('id')))
-        def tasks = taskRepository.findAll(defaultPageable).getContent().stream()
+        def tasks = taskRepository.findByInitiator_Id(user.id, defaultPageable).getContent().stream()
                 .map(it -> taskMapper::toTaskInfo(it))
                 .collect()
 
@@ -108,7 +125,7 @@ class TaskRepositoryTest extends Specification {
 
         when:
         taskRepository.deleteById(taskDb.id)
-        taskDb = taskRepository.findById(taskDb.id).orElse(null)
+        taskDb = taskRepository.findByInitiator_IdAndId(user.id, taskDb.id).orElse(null)
 
         then:
         taskDb == null
@@ -122,7 +139,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.id != null
 
         when:
-        def tasks = taskRepository.findAllByDate(taskDb.startDate).stream()
+        def tasks = taskRepository.findAllByDate(user.id, taskDb.startDate).stream()
                 .map(it -> taskMapper::toTaskInfo(it))
                 .collect()
 
@@ -138,7 +155,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.id != null
 
         when:
-        def tasks = taskRepository.findAllByStartDateAndEndDate(taskDb.startDate, taskDb.endDate).stream()
+        def tasks = taskRepository.findAllByStartDateAndEndDate(user.id, taskDb.startDate, taskDb.endDate).stream()
                 .map(it -> taskMapper::toTaskInfo(it))
                 .collect()
 
@@ -154,7 +171,7 @@ class TaskRepositoryTest extends Specification {
         taskDb.id != null
 
         when:
-        def count = taskRepository.countAllByDate(taskDb.startDate)
+        def count = taskRepository.countAllByDate(user.id, taskDb.startDate)
 
         then:
         count == 1

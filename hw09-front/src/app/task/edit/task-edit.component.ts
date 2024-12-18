@@ -32,6 +32,7 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class TaskEditComponent {
   id!: any;
+  userId!: any;
   task!: Task;
   form!: FormGroup;
   isLoadingResults = false;
@@ -44,7 +45,8 @@ export class TaskEditComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.taskService.findById(this.id).subscribe((res: Task) => {
+    this.userId = this.route.snapshot.params['userId'];
+    this.taskService.findById(this.userId, this.id).subscribe((res: Task) => {
       this.task = res;
     });
 
@@ -63,10 +65,10 @@ export class TaskEditComponent {
   submit() {
     this.isLoadingResults = true;
     console.log(this.form.value);
-    this.taskService.updateById(this.id, this.form.value).subscribe((res: any) => {
+    this.taskService.updateById(this.userId, this.id, this.form.value).subscribe((res: any) => {
       this.isLoadingResults = false;
       console.log('Event update successfully!');
-      this.router.navigateByUrl('task/list');
+      this.router.navigateByUrl('task/list/' + this.userId);
     })
   }
 }

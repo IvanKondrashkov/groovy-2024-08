@@ -1,0 +1,38 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/user/list']">
+      <mat-icon class="mat-icon" inline="true">Список пользователей</mat-icon></a>
+  </div>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>{{user.id}}</h2></mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <dl>
+        <dt>ID:</dt>
+        <dd>{{user.id}}</dd>
+        <dt>Имя:</dt>
+        <dd>{{user.firstName}}</dd>
+        <dt>Фамилия:</dt>
+        <dd>{{user.lastName}}</dd>
+        <dt>Почта:</dt>
+        <dd>{{user.email}}</dd>
+      </dl>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a mat-flat-button color="primary" [routerLink]="['/user-edit', user.id]">
+        <mat-icon class="mat-icon" inline="true">Обновить</mat-icon></a>
+      <a mat-flat-button color="warn" (click)="deleteById(user.id)">
+        <mat-icon class="mat-icon" inline="true">Удалить</mat-icon></a>
+      <a mat-flat-button color="primary" [routerLink]="['/task-add', user.id]">
+        <mat-icon class="mat-icon" inline="true">Добавить задачу</mat-icon></a>
+    </mat-card-actions>
+  </mat-card>
+</div>

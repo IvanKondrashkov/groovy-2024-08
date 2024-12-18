@@ -15,7 +15,7 @@ import {Action} from '../action';
 import {MatAnchor} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {CommonModule} from '@angular/common';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
@@ -45,6 +45,7 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './action-list.component.css'
 })
 export class ActionListComponent {
+  userId!: any;
   actions!: Action[];
   displayedColumns: string[] = ['name', 'description', 'startDate', 'endDate'];
   dataSource: MatTableDataSource<Action> = new MatTableDataSource<Action>();
@@ -55,11 +56,13 @@ export class ActionListComponent {
   isLoadingResults = true;
 
   constructor(
-    private actionService: ActionService
+    private actionService: ActionService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.actionService.findAll().subscribe((res: Action[]) => {
+    this.userId = this.route.snapshot.params['userId'];
+    this.actionService.findAll(this.userId).subscribe((res: Action[]) => {
       this.dataSource.data = res;
       this.actions = res;
       console.log('this.dataSource = ', this.dataSource.data);

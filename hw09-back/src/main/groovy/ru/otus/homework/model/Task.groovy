@@ -1,7 +1,6 @@
 package ru.otus.homework.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.EqualsAndHashCode
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -40,16 +39,20 @@ class Task {
     @Column(name = "end_date")
     LocalDateTime endDate
 
-    @JsonIgnore
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Action> actions = new HashSet<>()
 
-    Task(String name, String description, LocalDateTime startDate, LocalDateTime endDate, Set<Action> actions) {
+    @ManyToOne
+    @JoinColumn(name = "initiator_id")
+    User initiator
+
+    Task(String name, String description, LocalDateTime startDate, LocalDateTime endDate, Set<Action> actions, User initiator) {
         this.name = name
         this.description = description
         this.startDate = startDate
         this.endDate = endDate
         this.actions = actions
+        this.initiator = initiator
     }
 
     Task() {

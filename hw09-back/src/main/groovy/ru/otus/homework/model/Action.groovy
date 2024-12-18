@@ -43,12 +43,17 @@ class Action {
     @JoinColumn(name = "task_id")
     Task task
 
-    Action(String name, String description, LocalDateTime startDate, LocalDateTime endDate, Task task) {
+    @ManyToOne
+    @JoinColumn(name = "initiator_id")
+    User initiator
+
+    Action(String name, String description, LocalDateTime startDate, LocalDateTime endDate, Task task, User initiator) {
         this.name = name
         this.description = description
         this.startDate = startDate
         this.endDate = endDate
         this.task = task
+        this.initiator = initiator
     }
 
     Action() {

@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 @Serdeable
 @Introspected
 class MessageInfo {
+    UUID userId
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime message_ts
+    LocalDateTime messageTs
 }
