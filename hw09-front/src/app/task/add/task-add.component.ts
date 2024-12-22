@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TaskService} from '../task.service';
@@ -30,15 +30,18 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './task-add.component.css'
 })
 export class TaskAddComponent {
+  userId!: any;
   form!: FormGroup;
   isLoadingResults = false;
 
   constructor(
     private taskService: TaskService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.userId = this.route.snapshot.params['userId'];
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
@@ -54,10 +57,10 @@ export class TaskAddComponent {
   submit() {
     this.isLoadingResults = true;
     console.log(this.form.value);
-    this.taskService.save(this.form.value).subscribe((res: any) => {
+    this.taskService.save(this.form.value, this.userId).subscribe((res: any) => {
       this.isLoadingResults = false;
       console.log('Event created successfully!');
-      this.router.navigateByUrl('task/list');
+      this.router.navigateByUrl('task/list/' + this.userId);
     })
   }
 }

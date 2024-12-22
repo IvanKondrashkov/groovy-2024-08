@@ -26,10 +26,16 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning culture\",\r\n    \"startDate\": \"2024-11-01 00:00:00\",\r\n    \"endDate\": \"2024-11-02 00:00:00\"\r\n}",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning culture\",\r\n    \"startDate\": \"2024-11-01 00:00:00\",\r\n    \"endDate\": \"2024-11-02 00:00:00\",\r\n    \"initiator\": {\r\n        \"id\": \"{{user_id}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -37,11 +43,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/tasks",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks"
 							]
 						}
@@ -65,10 +73,16 @@
 					],
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\"\r\n}",
+							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\",\r\n    \"initiator\": {\r\n        \"id\": \"{{user_id}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -76,11 +90,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks/{{task_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks",
 								"{{task_id}}"
 							]
@@ -106,13 +122,21 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks/{{task_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks",
 								"{{task_id}}"
 							]
@@ -136,13 +160,21 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks?",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks?",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks"
 							],
 							"query": [
@@ -159,17 +191,28 @@
 					"name": "get count tasks by date",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/count?date={{startDate}}",
+							"raw": "{{baseUrl}}/user/tasks/count?userId={{user_id}}&date={{startDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"tasks",
 								"count"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "date",
 									"value": "{{startDate}}"
@@ -183,17 +226,28 @@
 					"name": "get all tasks by date",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/list?date={{startDate}}",
+							"raw": "{{baseUrl}}/user/tasks/list?userId={{user_id}}&date={{startDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"tasks",
 								"list"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "date",
 									"value": "{{startDate}}"
@@ -207,17 +261,28 @@
 					"name": "get all tasks by startDate and endDate",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/range?startDate={{startDate}}&endDate={{endDate}}",
+							"raw": "{{baseUrl}}/user/tasks/range?userId={{user_id}}&startDate={{startDate}}&endDate={{endDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"tasks",
 								"range"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "startDate",
 									"value": "{{startDate}}"
@@ -238,9 +303,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var response = pm.response.json()\r",
-									"pm.globals.set(\"startDate\", response.startDate)\r",
-									"pm.globals.set(\"endDate\", response.endDate)"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -249,13 +312,21 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/{{task_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks/{{task_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks",
 								"{{task_id}}"
 							]
@@ -285,10 +356,16 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning sport\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\"\r\n}",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning sport\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\",\r\n    \"initiator\": {\r\n        \"id\": \"{{user_id}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -296,11 +373,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/tasks",
+							"raw": "{{baseUrl}}/user/{{user_id}}/tasks",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"tasks"
 							]
 						}
@@ -324,10 +403,16 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning football\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"learning\",\r\n    \"description\": \"learning football\",\r\n    \"startDate\": \"2024-11-21 00:00:00\",\r\n    \"endDate\": \"2024-11-22 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    },\r\n    \"initiator\": {\r\n        \"id\": \"{{user_id}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -335,11 +420,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/actions",
+							"raw": "{{baseUrl}}/user/{{user_id}}/actions",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"actions"
 							]
 						}
@@ -363,10 +450,16 @@
 					],
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"working\",\r\n    \"description\": \"project it\",\r\n    \"startDate\": \"2024-11-03 00:00:00\",\r\n    \"endDate\": \"2024-11-05 00:00:00\",\r\n    \"task\": {\r\n        \"id\": \"{{task_id}}\"\r\n    },\r\n    \"initiator\": {\r\n        \"id\": \"{{user_id}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -374,11 +467,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/actions/{{action_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"actions",
 								"{{action_id}}"
 							]
@@ -404,13 +499,21 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/actions/{{action_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"actions",
 								"{{action_id}}"
 							]
@@ -434,13 +537,21 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions?",
+							"raw": "{{baseUrl}}/user/{{user_id}}/actions?",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"actions"
 							],
 							"query": [
@@ -457,17 +568,28 @@
 					"name": "get count actions by date",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions/count?date={{startDate}}",
+							"raw": "{{baseUrl}}/user/actions/count?userId={{user_id}}&date={{startDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"actions",
 								"count"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "date",
 									"value": "{{startDate}}"
@@ -481,17 +603,28 @@
 					"name": "get all actions by date",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions/list?date={{startDate}}",
+							"raw": "{{baseUrl}}/user/actions/list?userId={{user_id}}&date={{startDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"actions",
 								"list"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "date",
 									"value": "{{startDate}}"
@@ -505,17 +638,28 @@
 					"name": "get all actions by startDate and endDate",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions/range?startDate={{startDate}}&endDate={{endDate}}",
+							"raw": "{{baseUrl}}/user/actions/range?userId={{user_id}}&startDate={{startDate}}&endDate={{endDate}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
 								"actions",
 								"range"
 							],
 							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								},
 								{
 									"key": "startDate",
 									"value": "{{startDate}}"
@@ -536,9 +680,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var response = pm.response.json()\r",
-									"pm.globals.set(\"startDate\", response.startDate)\r",
-									"pm.globals.set(\"endDate\", response.endDate)"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -547,13 +689,21 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{baseUrl}}/actions/{{action_id}}",
+							"raw": "{{baseUrl}}/user/{{user_id}}/actions/{{action_id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"user",
+								"{{user_id}}",
 								"actions",
 								"{{action_id}}"
 							]
@@ -564,12 +714,316 @@
 			]
 		},
 		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"name": "users",
+			"item": [
+				{
+					"name": "create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"user_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Djon\",\r\n    \"lastName\": \"Doe\",\r\n    \"login\": \"qwerty\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"djon@mail.ru\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"user_id\", response.id)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Djon\",\r\n    \"lastName\": \"Doe\",\r\n    \"login\": \"qwerty99\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"djon@mail.ru\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/admin/{{user_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"admin",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/admin/{{user_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"admin",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by login and password",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/admin/verify?login={{user_login}}&password={{user_password}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"admin",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "{{user_login}}"
+								},
+								{
+									"key": "password",
+									"value": "{{user_password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/admin/{{user_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"admin",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"access_token\", response.token_type + \" \" + response.access_token)\r",
+									"pm.globals.set(\"refresh_token\", response.refresh_token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "qwerty",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json()\r",
+									"pm.globals.set(\"access_token\", response.token_type + \" \" + response.access_token)\r",
+									"pm.globals.set(\"refresh_token\", response.refresh_token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oauth/access_token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oauth",
+								"access_token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

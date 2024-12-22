@@ -4,7 +4,7 @@
   </div>
 
   <div class="button-row">
-    <a mat-flat-button color="primary" [routerLink]="['/task-add']">
+    <a mat-flat-button color="primary" [routerLink]="['/task-add', userId]">
       <mat-icon class="mat-icon" inline="true">Добавить</mat-icon></a>
   </div>
   <div class="mat-elevation-z8">
@@ -32,7 +32,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/task-details/', row.id]"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/task-details', userId, row.id]"></tr>
     </table>
 
     <mat-paginator

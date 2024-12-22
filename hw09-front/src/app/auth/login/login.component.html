@@ -1,0 +1,31 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Логин" formControlName="username" type="text">
+        <mat-error>
+          <span *ngIf="validate['username'].touched && validate['username'].invalid">Username is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <mat-card class="example-card">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Пароль" formControlName="password" type="text">
+        <mat-error>
+          <span *ngIf="validate['password'].touched && validate['password'].invalid">Password is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </mat-card>
+
+    <div class="button-row">
+      <button type="submit" [disabled]="!form.valid" mat-flat-button color="primary">
+        <mat-icon class="mat-icon" inline="true">Войти</mat-icon></button>
+    </div>
+  </form>
+</div>

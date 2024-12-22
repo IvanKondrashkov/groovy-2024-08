@@ -1,3 +1,4 @@
+import {User} from '../user/user';
 import {Task} from '../task/task';
 
 export class Action {
@@ -7,4 +8,5 @@ export class Action {
   startDate?: string | null;
   endDate?: string | null;
   task?: Task
+  initiator?: User
 }

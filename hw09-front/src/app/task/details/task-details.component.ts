@@ -35,6 +35,7 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 })
 export class TaskDetailsComponent {
   id!: any;
+  userId!: any;
   task!: Task;
   isLoadingResults = true;
 
@@ -46,23 +47,24 @@ export class TaskDetailsComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.findById(this.id)
+    this.userId = this.route.snapshot.params['userId'];
+    this.findById(this.userId, this.id)
   }
 
-  findById(id: any) {
-    this.taskService.findById(id).subscribe((res: any) => {
+  findById(userId: any, id: any) {
+    this.taskService.findById(userId, id).subscribe((res: any) => {
       this.task = res
       console.log(res);
       this.isLoadingResults = false;
     })
   }
 
-  deleteById(id: any) {
+  deleteById(userId: any, id: any) {
     this.isLoadingResults = true;
     this.id = id;
-    this.taskService.deleteById(id).subscribe(res => {
+    this.taskService.deleteById(userId, id).subscribe(res => {
       this.isLoadingResults = false;
-      this.router.navigate(['/task/list']);
+      this.router.navigate(['task/list/' + this.userId]);
       console.log('Event delete successfully!');
     })
   }

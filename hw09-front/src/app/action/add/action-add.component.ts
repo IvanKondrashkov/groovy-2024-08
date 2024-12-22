@@ -30,7 +30,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrl: './action-add.component.css'
 })
 export class ActionAddComponent {
-  task_id!: any;
+  userId!: any;
+  taskId!: any;
   form!: FormGroup;
   isLoadingResults = false;
 
@@ -41,7 +42,8 @@ export class ActionAddComponent {
   ) {}
 
   ngOnInit() {
-    this.task_id = this.route.snapshot.params['task_id'];
+    this.userId = this.route.snapshot.params['userId'];
+    this.taskId = this.route.snapshot.params['taskId'];
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
@@ -57,10 +59,10 @@ export class ActionAddComponent {
   submit() {
     this.isLoadingResults = true;
     console.log(this.form.value);
-    this.actionService.save(this.task_id, this.form.value).subscribe((res: any) => {
+    this.actionService.save(this.form.value, this.userId, this.taskId).subscribe((res: any) => {
       this.isLoadingResults = false;
       console.log('Event created successfully!');
-      this.router.navigateByUrl('action/list');
+      this.router.navigateByUrl('action/list/' + this.userId);
     })
   }
 }
